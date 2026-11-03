@@ -3,13 +3,16 @@
   "description": "NG archive",
   "type": "module",
   "version": "0.0.1",
+  "private": false,
   "author": "NovGazeta",
   "license": "MIT",
-  "private": false,
   "homepage": "https://novgazeta.ru",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NovGazeta/novgazeta.ru.git"
+    "url": "https://github.com/NovGazeta/novgazeta.ru"
+  },
+  "bugs": {
+    "url": "https://github.com/NovGazeta/novgazeta.ru/issues"
   },
   "scripts": {
     "dev": "astro dev --host --mode development --port 4444",
@@ -39,15 +42,12 @@
     "typescript": "^7.0.2"
   },
   "engines": {
-    "node": ">=24.22.0"
+    "node": ">=24.22.1"
   },
   "keywords": [
-    "astro-theme",
     "astro",
-    "blog",
-    "minimal",
-    "editorial",
-    "writing",
-    "tailwindcss"
+    "typescript",
+    "tailwindcss",
+    "blog"
   ]
 }

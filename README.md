@@ -1,2 +1,3 @@
 # novgazeta.ru
+
 NG archive

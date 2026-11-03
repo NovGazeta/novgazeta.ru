@@ -1,14 +1,14 @@
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import { siteConfig } from "./src/config/site.ts";
 
 export default defineConfig({
   site: siteConfig.siteUrl,
-  output: 'static',
-	outDir: './dist',
-	publicDir: './public',
+  output: "static",
+  outDir: "./dist",
+  publicDir: "./public",
   integrations: [
     sitemap({
       filter: (page) => page !== new URL("/search/", siteConfig.siteUrl).toString(),
