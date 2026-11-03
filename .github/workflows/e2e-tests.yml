@@ -1,0 +1,36 @@
+name: Playwright tests
+
+on:
+  workflow_call:
+    outputs:
+      status:
+        value: ${{ jobs.test.outputs.status }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ job.status }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.22.1'
+          cache: 'yarn'
+
+      - name: Run tests
+        env:
+          PUBLIC_APP_NAME: ${{ vars.PUBLIC_APP_NAME }}
+          PUBLIC_APP_DOMAIN: ${{ vars.PUBLIC_APP_DOMAIN }}
+          PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL }}
+          SHA: ${{ github.sha }}
+
+        run: |
+          yarn
+          yarn playwright install
+          npx playwright test
