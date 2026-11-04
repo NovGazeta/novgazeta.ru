@@ -3,6 +3,37 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { categories } from "@/config/categories";
 
+const articles = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/articles" }),
+  schema: ({ image }) =>
+    z.object({
+      source: z.string(),
+      title: z.string(),
+      subtitle: z.string().optional(),
+      rubric: z.string(),
+      genre: z.string(),
+      authors: z.string().optional(),
+      date: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      tags: z.string().optional(),
+      /**
+       * Optional feature image. Monograph's post feeds are deliberately
+       * text-only, so a cover is only ever shown on the post itself.
+       */
+      cover: z
+        .object({
+          src: image(),
+          alt: z.string(),
+          creditName: z.string().optional(),
+          creditUrl: z.url().optional(),
+        })
+        .optional(),
+      /** Surfaces the post in the "Featured" list in the home sidebar. */
+      featured: z.boolean().default(false),
+      draft: z.boolean().default(false),
+    }),
+});
+
 const posts = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
   schema: ({ image }) =>
@@ -35,4 +66,4 @@ const posts = defineCollection({
     }),
 });
 
-export const collections = { posts };
+export const collections = { articles, posts };
