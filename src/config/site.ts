@@ -3,7 +3,7 @@ import { config } from "dotenv";
 const DEBUG = process.env.NODE_ENV !== "production";
 if (DEBUG) config({ quiet: true });
 
-const { PUBLIC_APP_NAME, PUBLIC_APP_DOMAIN, PUBLIC_APP_URL } = process.env;
+const { PUBLIC_APP_NAME = "NG Archive", PUBLIC_APP_URL = "https://novgazeta.ru" } = process.env;
 
 export const siteConfig = {
   /** Wordmark shown in the header and footer. Monograph uses text, never a logo image. */
