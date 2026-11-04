@@ -1,10 +1,17 @@
+import { config } from "dotenv";
+
+const DEBUG = process.env.NODE_ENV !== "production";
+if (DEBUG) config({ quiet: true });
+
+const { PUBLIC_APP_NAME, PUBLIC_APP_DOMAIN, PUBLIC_APP_URL } = process.env;
+
 export const siteConfig = {
   /** Wordmark shown in the header and footer. Monograph uses text, never a logo image. */
-  name: "Новая Газета",
+  siteUrl: PUBLIC_APP_URL,
+  name: PUBLIC_APP_NAME,
   tagline: "A quiet place for long-form writing",
   title: "Архив Новой Газеты с 2000 по 2026 годы",
   description: "",
-  siteUrl: "https://novgazeta.ru",
   authorName: "NovGazeta",
   email: "mail@novgazeta.ru",
   language: "ru",
