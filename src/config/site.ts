@@ -9,17 +9,17 @@ export const siteConfig = {
   /** Wordmark shown in the header and footer. Monograph uses text, never a logo image. */
   siteUrl: PUBLIC_APP_URL,
   name: PUBLIC_APP_NAME,
-  tagline: "A quiet place for long-form writing",
+  tagline: "Архив Новой Газеты с 2000 по 2026 годы",
   title: "Архив Новой Газеты с 2000 по 2026 годы",
-  description: "",
+  description: "Описание",
   authorName: "NovGazeta",
   email: "mail@novgazeta.ru",
   language: "ru",
   dateLocale: "ru-RU",
   locale: "ru_RU",
-  socialImage: "/og-image.png",
+  socialImage: "/logo.png",
   /** Shown in the home sidebar "About" card. */
-  about: "О сайте",
+  about: "О сайте подробнее",
   /**
    * Both forms below ship enabled with an empty `action`, which makes them fully
    * interactive demos that submit nowhere: a small script confirms the submit
@@ -27,7 +27,7 @@ export const siteConfig = {
    * real submissions, or set `enabled: false` to disable the controls outright.
    */
   newsletter: {
-    enabled: true,
+    enabled: false,
     action: "",
     method: "post",
     emailFieldName: "email",
@@ -35,7 +35,7 @@ export const siteConfig = {
     description: "One email when something new goes up. No spam, unsubscribe anytime.",
   },
   contact: {
-    enabled: true,
+    enabled: false,
     action: "",
     method: "post",
     responseTime: "Replies usually go out within two business days.",
