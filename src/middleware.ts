@@ -8,9 +8,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const response = await next();
     const { pathname }: { pathname: string } = context.url;
     if (response.status === 404 && pathname.endsWith(mapPath)) {
-      return pathname.startsWith(mapPath) ? new Response("", {
-        status: 200,
-      }) : context.rewrite(mapPath);
+      return pathname.startsWith(mapPath)
+        ? new Response("", {
+            status: 200,
+          })
+        : context.rewrite(mapPath);
     }
     return response;
   } catch (e) {
