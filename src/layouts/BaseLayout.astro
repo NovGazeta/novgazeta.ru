@@ -3,6 +3,7 @@ import { siteConfig } from "@/config/site";
 import "@/styles/global.css";
 
 interface Props {
+  name?: string;
   title?: string;
   description?: string;
   image?: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const {
+  name = siteConfig.name,
   title = siteConfig.title,
   description = siteConfig.description,
   image = siteConfig.socialImage,
@@ -24,9 +26,9 @@ const {
   structuredData,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
-const absoluteImage = new URL(image, siteConfig.siteUrl).toString();
-const pageTitle = title === siteConfig.title ? title : `${title} | ${siteConfig.name}`;
+const canonical: string = new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
+const absoluteImage: string = new URL(image, siteConfig.siteUrl).toString();
+const pageTitle: string = title === siteConfig.title ? title : `${title} | ${name}`;
 const defaultStructuredData = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -46,14 +48,25 @@ const schema = structuredData ?? defaultStructuredData;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preload" href="/fonts/geist/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="/fonts/geist/Geist-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
     {prevUrl && <link rel="prev" href={new URL(prevUrl, siteConfig.siteUrl).toString()} />}
     {nextUrl && <link rel="next" href={new URL(nextUrl, siteConfig.siteUrl).toString()} />}
-    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} RSS`} href={new URL("/rss.xml", siteConfig.siteUrl).toString()} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${siteConfig.name} RSS`}
+      href={new URL("/rss.xml", siteConfig.siteUrl).toString()}
+    />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:locale" content={siteConfig.locale} />
     <meta property="og:type" content={type} />
@@ -88,7 +101,10 @@ const schema = structuredData ?? defaultStructuredData;
           const isDark = theme === "dark";
           document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
             button.setAttribute("aria-checked", String(isDark));
-            button.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+            button.setAttribute(
+              "aria-label",
+              isDark ? "Switch to light mode" : "Switch to dark mode",
+            );
           });
         };
 
@@ -129,7 +145,9 @@ const schema = structuredData ?? defaultStructuredData;
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#content">Skip to content</a>
+    <a class="skip-link" href="#content">
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>
