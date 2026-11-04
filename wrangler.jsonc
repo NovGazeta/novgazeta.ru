@@ -1,6 +1,6 @@
 {
-  "name": "monograph",
-  "compatibility_date": "2026-07-09",
+  "name": "novgazeta.ru",
+  "compatibility_date": "2026-11-03",
   "build": {
     "command": "npm run build",
   },
