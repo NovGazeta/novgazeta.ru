@@ -12,6 +12,9 @@ export default defineConfig({
   experimental: {
     incrementalBuild: true,
   },
+  build: {
+    concurrency: 2,
+  },
   integrations: [
     sitemap({
       filter: (page) => page !== new URL("/search/", siteConfig.siteUrl).toString(),
