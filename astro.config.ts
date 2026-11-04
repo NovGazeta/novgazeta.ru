@@ -9,6 +9,9 @@ export default defineConfig({
   output: "static",
   outDir: "./dist",
   publicDir: "./public",
+  experimental: {
+    incrementalBuild: true,
+  },
   integrations: [
     sitemap({
       filter: (page) => page !== new URL("/search/", siteConfig.siteUrl).toString(),

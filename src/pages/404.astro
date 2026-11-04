@@ -6,6 +6,15 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { visiblePosts } from "@/lib/posts";
 
 const allPosts = visiblePosts(await getCollection("posts"));
+//console.log(allPosts);
+
+export async function getStaticPaths() {
+  return allPosts.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+    cacheKey: String(entry.digest),
+  }));
+}
 ---
 
 <BaseLayout title="Page not found" description="The page you requested could not be found." noindex>
@@ -18,8 +27,12 @@ const allPosts = visiblePosts(await getCollection("posts"));
         That post may have moved, or the address may be mistyped.
       </p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a href="/" class="btn btn-solid">Back to the front page</a>
-        <a href="/posts/" class="btn btn-outline">Browse the archive</a>
+        <a href="/" class="btn btn-solid">
+          Back to the front page
+        </a>
+        <a href="/posts/" class="btn btn-outline">
+          Browse the archive
+        </a>
       </div>
     </div>
   </main>
