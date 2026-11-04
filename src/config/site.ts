@@ -41,23 +41,23 @@ export const siteConfig = {
     responseTime: "Replies usually go out within two business days.",
   },
   socials: [
-    { label: "Instagram", href: "https://instagram.com" },
-    { label: "TikTok", href: "https://www.tiktok.com" },
-    { label: "YouTube", href: "https://www.youtube.com" },
-    { label: "RSS", href: "/rss.xml" },
+    //{ label: "Instagram", href: "https://instagram.com" },
+    //{ label: "TikTok", href: "https://www.tiktok.com" },
+    //{ label: "YouTube", href: "https://www.youtube.com" },
+    //{ label: "RSS", href: "/rss.xml" },
   ],
 };
 
 /** Header navigation. Add or remove entries freely; the header renders them in order. */
 export const navigation = [
-  { label: "Archive", href: "/posts/" },
-  { label: "Categories", href: "/categories/" },
-  { label: "About", href: "/about/" },
+  { label: "Статьи", href: "/posts/" },
+  { label: "Разделы", href: "/categories/" },
+  { label: "О сайте", href: "/about/" },
 ];
 
 /** Secondary navigation rendered in the footer. */
 export const footerNavigation = [
-  { label: "Contact", href: "/contact/" },
-  { label: "Privacy", href: "/privacy/" },
-  { label: "RSS", href: "/rss.xml" },
+  //{ label: "Контакты", href: "/contact/" },
+  //{ label: "Условия", href: "/privacy/" },
+  //{ label: "RSS", href: "/rss.xml" },
 ];
