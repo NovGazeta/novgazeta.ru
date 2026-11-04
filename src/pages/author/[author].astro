@@ -12,6 +12,7 @@ export async function getStaticPaths() {
   return getAllAuthors(allPosts).map((author) => ({
     params: { author: author.slug },
     props: { author, allPosts },
+    cacheKey: String(author.digest),
   }));
 }
 
@@ -42,10 +43,14 @@ const posts = visiblePosts(allPosts).filter(
       </header>
 
       <div class="feed">
-        {posts.map((post) => <PostCard post={post} />)}
+        {posts.map((post) => (
+          <PostCard post={post} />
+        ))}
       </div>
 
-      <a href="/author/" class="btn btn-outline btn-block mt-16">All authors</a>
+      <a href="/author/" class="btn btn-outline btn-block mt-16">
+        All authors
+      </a>
     </div>
   </main>
   <SiteFooter />

@@ -6,15 +6,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { visiblePosts } from "@/lib/posts";
 
 const allPosts = visiblePosts(await getCollection("posts"));
-//console.log(allPosts);
-
-export async function getStaticPaths() {
-  return allPosts.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
-    cacheKey: String(entry.digest),
-  }));
-}
 ---
 
 <BaseLayout title="Page not found" description="The page you requested could not be found." noindex>
