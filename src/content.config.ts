@@ -13,9 +13,9 @@ const articles = defineCollection({
       rubric: z.string(),
       genre: z.string(),
       authors: z.string().optional(),
+      tags: z.string().optional(),
       date: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
-      tags: z.string().optional(),
       /**
        * Optional feature image. Monograph's post feeds are deliberately
        * text-only, so a cover is only ever shown on the post itself.

@@ -1,18 +1,18 @@
 ---
 import { getCollection } from "astro:content";
 import { siteConfig } from "@/config/site";
-import { categoryHref, getCategoryList, getFeatured, visiblePosts } from "@/lib/posts";
+import { rubricHref, getCategoryList, getFeatured, visiblePosts } from "@/lib/posts";
 import PostCard from "@/components/PostCard.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-const articles = await getCollection("articles");
+const posts = visiblePosts(await getCollection("articles"));
 const allPosts = visiblePosts(await getCollection("posts"));
 const [latest, ...rest] = allPosts;
 const feed = rest.slice(0, 8);
 const featured = getFeatured(allPosts, 4).filter((post) => post.id !== latest?.id);
-const categoryList = getCategoryList(articles);
+const categoryList = getCategoryList(posts);
 const hasMore = rest.length > feed.length;
 ---
 
@@ -76,7 +76,7 @@ const hasMore = rest.length > feed.length;
                 {categoryList.map((category) => (
                   <li>
                     <a
-                      href={categoryHref(category.name)}
+                      href={rubricHref(category.name)}
                       class="link-title flex items-center justify-between gap-3"
                     >
                       <span class="link-title__text text-base font-semibold tracking-tight">

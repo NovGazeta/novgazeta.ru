@@ -6,30 +6,20 @@ export type Post = CollectionEntry<"posts">;
 export type Category = string;
 
 export const cyrToSlug = (str: string) =>
-    cyrillicToLatin(str)
+  cyrillicToLatin(str)
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
 
-export const authorSlug = (author: string) =>
-    cyrillicToLatin(author)
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
+export const authorSlug = (author: string) => cyrToSlug(author);
 
-export const categorySlug = (category: string) =>
-    category
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
+export const categorySlug = (category: string) => cyrToSlug(category);
 
-export const categoryHref = (category: string) => `/category/${category}/`; // cyrToSlug(category)
+export const categoryHref = (slug: string) => `/category/${slug}/`;
+
+export const rubricHref = (slug: string) => `/rubric/${slug}/`;
 
 export const postSlug = (post: Post) => post.id.replace(/\/index$/, "");
 
@@ -60,29 +50,27 @@ export const getFeatured = (posts: Post[], limit = 5) =>
     .slice(0, limit);
 
 export const getPostsByCategory = (posts: Post[], category: string) =>
-  visiblePosts(posts).filter((post) => post.data.category === category);
+  visiblePosts(posts).filter((post) => post.data.category === category || post.data.rubric === category);
 
 /** Categories in configured order, with post counts. Empty ones are dropped. */
 export const getCategoryList = (posts: Post[]) => {
-  const visible = visiblePosts(posts);
-
-  const rubrics = {};
-  for (let i = 0; i < visible.length; i++) {
-    const { rubric, category } = visible[i].data;
-    const slug = !!rubric ? cyrToSlug(rubric) : cyrToSlug(category);
-    if (slug in rubrics) {
-      rubrics[slug].count++;
+  const categories = {};
+  for (let i = 0; i < posts.length; i++) {
+    const { rubric, category } = posts[i].data;
+    const name = rubric || category;
+    const slug = cyrToSlug(name);
+    if (slug in categories) {
+      categories[slug].count++;
     } else {
-      rubrics[slug] = {
+      categories[slug] = {
+        name,
         slug,
-        name: rubric || category,
-        latin: cyrillicToLatin(rubric || category),
+        latin: cyrillicToLatin(name),
         count: 1,
       };
     }
   }
-  console.log(rubrics);
-  return Object.values(rubrics);
+  return Object.values(categories);
 };
 
 export const getRelated = (posts: Post[], current: Post, limit = 3) =>

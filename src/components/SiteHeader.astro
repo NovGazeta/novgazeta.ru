@@ -4,18 +4,20 @@ import { formatDate, postHref, readingLabel, visiblePosts, type Post } from "@/l
 
 interface Props {
   posts: Post[];
-  sliceTo: number;
+  sliceTo?: number;
+  fallback?: string;
 }
 
+const { posts = [], sliceTo = 10, fallback = "posts" }: Props = Astro.props;
+
 const currentPath: string = Astro.url.pathname;
-const sliceTo: number = Astro.props.sliceTo || 10;
-const posts: Post[] = visiblePosts(Astro.props.posts);
-/* Inlined so the palette still returns results if /search-index.json fails. */
-const searchFallback = posts.slice(0, sliceTo).map((post) => ({
+const visible: Post[] = visiblePosts(Astro.props.posts);
+/* Inlined so the palette still returns results if /adata/posts.json fails. */
+const searchFallback = visible.slice(0, sliceTo).map((post) => ({
   title: post.data.title,
   excerpt: post.data.excerpt,
   href: postHref(post),
-  author: post.data.author.name,
+  author: post.data.author?.name,
   category: post.data.category,
   date: formatDate(post.data.date),
   reading: readingLabel(post),
@@ -259,7 +261,7 @@ const isCurrentPath = (href: string) =>
     const loadIndex = () => {
       if (index.length > 0) return Promise.resolve(index);
 
-      indexPromise ??= fetch("/search-index.json")
+      indexPromise ??= fetch(`/adata/${fallback}.json`)
         .then((response) => {
           if (!response.ok) throw new Error("Search index unavailable");
           return response.json();

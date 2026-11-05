@@ -51,7 +51,7 @@ export const siteConfig = {
 /** Header navigation. Add or remove entries freely; the header renders them in order. */
 export const navigation = [
   { label: "Статьи", href: "/posts/" },
-  { label: "Разделы", href: "/categories/" },
+  { label: "Разделы", href: "/rubric/" },
   { label: "О сайте", href: "/about/" },
 ];
 

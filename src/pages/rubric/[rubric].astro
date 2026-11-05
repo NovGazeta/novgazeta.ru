@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import { siteConfig } from "@/config/site";
+import {
+  categorySlug,
+  getCategoryList,
+  getPostsByCategory,
+  visiblePosts,
+  type Category,
+  type Post,
+} from "@/lib/posts";
+import PostCard from "@/components/PostCard.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const articles = visiblePosts(await getCollection("articles"));
+  const categories = getCategoryList(articles);
+
+  return categories.map((category) => ({
+    params: { rubric: category.name },
+    props: { rubric: category.name, articles },
+  }));
+}
+
+interface Props {
+  rubric: Category;
+  articles: Post[];
+}
+
+const { articles, rubric } = Astro.props;
+const posts = getPostsByCategory(articles, rubric);
+---
+
+<BaseLayout title={rubric} description={`${siteConfig.name} posts in ${rubric}.`}>
+  <SiteHeader posts={posts} fallback="articles" />
+  <main id="content" class="outer">
+    <div class="canvas">
+      <header class="pagehead">
+        <p class="eyebrow">Раздел</p>
+        <h1 class="pagehead-title">{rubric}</h1>
+        <p class="meta mt-5">
+          <span>
+            {posts.length} {posts.length === 1 ? "post" : "posts"}
+          </span>
+        </p>
+      </header>
+
+      <div class="feed">
+        {posts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+
+      <a href="/rubric/" class="btn btn-outline btn-block mt-16">
+        Все разделы
+      </a>
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>

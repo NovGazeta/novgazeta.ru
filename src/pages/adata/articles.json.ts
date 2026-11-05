@@ -7,13 +7,16 @@ import { formatDate, postHref, readingLabel, visiblePosts } from "@/lib/posts";
  * the first search.
  */
 export async function GET() {
-  const posts = visiblePosts(await getCollection("posts"));
+  const posts = visiblePosts(await getCollection("articles"));
   const index = posts.map((post) => ({
-    title: post.data.title,
-    excerpt: post.data.excerpt,
     href: postHref(post),
-    author: post.data.author.name,
-    category: post.data.category,
+    source: post.data.source,
+    title: post.data.title,
+    subtitle: post.data.subtitle,
+    rubric: post.data.rubric,
+    genre: post.data.genre,
+    authors: post.data.authors,
+    tags: post.data.tags,
     date: formatDate(post.data.date),
     reading: readingLabel(post),
   }));

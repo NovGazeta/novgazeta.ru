@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import { categoryDescriptions } from "@/config/categories";
+import { siteConfig } from "@/config/site";
+import { rubricHref, getCategoryList, visiblePosts } from "@/lib/posts";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const posts = visiblePosts(await getCollection("articles"));
+const categoryList = getCategoryList(posts);
+---
+
+<BaseLayout
+  title="Categories"
+  description={`Every category on ${siteConfig.name}, with post counts.`}
+>
+  <SiteHeader posts={posts} fallback="articles" />
+  <main id="content" class="outer">
+    <div class="canvas">
+      <header class="pagehead">
+        <p class="eyebrow">Разделы</p>
+        <h1 class="pagehead-title">Все разделы</h1>
+        <p class="pagehead-description">
+          {posts.length} статей, в {categoryList.length}&nbsp;
+          {categoryList.length === 1 ? "разделе" : "разделах"}.
+        </p>
+      </header>
+
+      <ul class="grid gap-7">
+        {categoryList.map((category) => (
+          <li class="border-b border-border pb-7 last:border-b-0">
+            <a href={rubricHref(category.name)} class="link-title">
+              <span class="flex items-baseline justify-between gap-4">
+                <span class="link-title__text text-xl font-semibold tracking-tight">
+                  {category.name}
+                </span>
+                <span class="pill shrink-0">
+                  {category.count}{" "}
+                  {category.count === 1 ? "статья" : category.count < 5 ? "статьи" : "статей"}
+                </span>
+              </span>
+              <span class="mt-2 block max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground">
+                {category.name in categoryDescriptions ? categoryDescriptions[category.name] : ""}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>
