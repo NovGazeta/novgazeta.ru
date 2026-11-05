@@ -50,7 +50,9 @@ export const getFeatured = (posts: Post[], limit = 5) =>
     .slice(0, limit);
 
 export const getPostsByCategory = (posts: Post[], category: string) =>
-  visiblePosts(posts).filter((post) => post.data.category === category || post.data.rubric === category);
+  visiblePosts(posts).filter(
+    (post) => post.data.category === category || post.data.rubric === category,
+  );
 
 /** Categories in configured order, with post counts. Empty ones are dropped. */
 export const getCategoryList = (posts: Post[]) => {
