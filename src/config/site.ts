@@ -19,7 +19,7 @@ export const siteConfig = {
   locale: "ru_RU",
   socialImage: "/logo.png",
   /** Shown in the home sidebar "About" card. */
-  about: "О сайте подробнее",
+  about: "О сайте кратко",
   /**
    * Both forms below ship enabled with an empty `action`, which makes them fully
    * interactive demos that submit nowhere: a small script confirms the submit
