@@ -1,7 +1,7 @@
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import { siteConfig } from "./src/config/site.ts";
 
 export default defineConfig({
@@ -12,10 +12,13 @@ export default defineConfig({
   experimental: {
     incrementalBuild: true,
   },
+  image: {
+    service: passthroughImageService(),
+  },
   build: {
     concurrency: 2,
     inlineStylesheets: "never",
-    //assetsPrefix: "../",
+    //assetsPrefix: "http://localhost:4444",
   },
   integrations: [
     sitemap({
