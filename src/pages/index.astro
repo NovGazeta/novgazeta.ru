@@ -1,18 +1,18 @@
 ---
 import { getCollection } from "astro:content";
-import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import { siteConfig } from "@/config/site";
+import { categoryHref, getCategoryList, getFeatured, visiblePosts } from "@/lib/posts";
 import PostCard from "@/components/PostCard.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { siteConfig } from "@/config/site";
-import { categoryHref, getCategoryList, getFeatured, visiblePosts } from "@/lib/posts";
 
+const articles = await getCollection("articles");
 const allPosts = visiblePosts(await getCollection("posts"));
 const [latest, ...rest] = allPosts;
 const feed = rest.slice(0, 8);
 const featured = getFeatured(allPosts, 4).filter((post) => post.id !== latest?.id);
-const categoryList = getCategoryList(allPosts);
+const categoryList = getCategoryList(articles);
 const hasMore = rest.length > feed.length;
 ---
 
@@ -83,7 +83,8 @@ const hasMore = rest.length > feed.length;
                         {category.name}
                       </span>
                       <span class="pill shrink-0">
-                        {category.count} {category.count === 1 ? "post" : "posts"}
+                        {category.count}{" "}
+                        {category.count === 1 ? "статья" : category.count < 5 ? "статьи" : "статей"}
                       </span>
                     </a>
                   </li>

@@ -18,14 +18,6 @@ export const categories = [
 
 export type Category = (typeof categories)[number];
 
-export const categorySlug = (category: string) =>
-  category
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-
 /** One line per category, shown on its archive page and in listings. */
 export const categoryDescriptions: Record<Category, string> = {
   Engineering: "Contracts, tooling, and the day-to-day craft of shipping software.",

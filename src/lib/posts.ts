@@ -1,19 +1,35 @@
 import type { CollectionEntry } from "astro:content";
-import { categories, categorySlug, type Category } from "@/config/categories";
 import { siteConfig } from "@/config/site";
+import { cyrillicToLatin } from "@/lib/utils";
 
 export type Post = CollectionEntry<"posts">;
-export { categories, categorySlug, type Category };
+export type Category = string;
 
-export const authorSlug = (author: string) =>
-  author
+export const cyrToSlug = (str: string) =>
+    cyrillicToLatin(str)
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
 
-export const categoryHref = (category: string) => `/category/${categorySlug(category)}/`;
+export const authorSlug = (author: string) =>
+    cyrillicToLatin(author)
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+
+export const categorySlug = (category: string) =>
+    category
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+
+export const categoryHref = (category: string) => `/category/${category}/`; // cyrToSlug(category)
 
 export const postSlug = (post: Post) => post.id.replace(/\/index$/, "");
 
@@ -28,12 +44,15 @@ export const visiblePosts = (posts: Post[]) =>
  * Reading time from the raw Markdown body at 220 words per minute, so posts
  * never have to carry a hand-maintained `readMinutes` field.
  */
-export const readingMinutes = (post: Post) => {
-  const words = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
+export const readingMinutes = (post: Post): number => {
+  const words: number = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 220));
 };
 
-export const readingLabel = (post: Post) => `${readingMinutes(post)} min read`;
+export const readingLabel = (post: Post) => {
+  const mins: number = readingMinutes(post);
+  return `${mins} ${mins === 1 ? "минута" : mins < 5 ? "минуты" : "минут"} для чтения`;
+};
 
 export const getFeatured = (posts: Post[], limit = 5) =>
   visiblePosts(posts)
@@ -47,13 +66,23 @@ export const getPostsByCategory = (posts: Post[], category: string) =>
 export const getCategoryList = (posts: Post[]) => {
   const visible = visiblePosts(posts);
 
-  return categories
-    .map((category) => ({
-      name: category,
-      slug: categorySlug(category),
-      count: visible.filter((post) => post.data.category === category).length,
-    }))
-    .filter((entry) => entry.count > 0);
+  const rubrics = {};
+  for (let i = 0; i < visible.length; i++) {
+    const { rubric, category } = visible[i].data;
+    const slug = !!rubric ? cyrToSlug(rubric) : cyrToSlug(category);
+    if (slug in rubrics) {
+      rubrics[slug].count++;
+    } else {
+      rubrics[slug] = {
+        slug,
+        name: rubric || category,
+        latin: cyrillicToLatin(rubric || category),
+        count: 1,
+      };
+    }
+  }
+  console.log(rubrics);
+  return Object.values(rubrics);
 };
 
 export const getRelated = (posts: Post[], current: Post, limit = 3) =>

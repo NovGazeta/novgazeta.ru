@@ -8,6 +8,11 @@
     "verbatimModuleSyntax": false,
     "baseUrl": "./",
     "types": ["astro/client"],
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ],
     "paths": {
       "$/*": ["src/*"],
       "~/*": ["src/*"],
