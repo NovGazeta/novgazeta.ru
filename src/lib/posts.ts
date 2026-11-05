@@ -6,7 +6,7 @@ export type Post = CollectionEntry<"posts">;
 export type Category = string;
 
 export const cyrToSlug = (str: string) =>
-    cyrillicToLatin(str)
+  cyrillicToLatin(str)
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9\s-]/g, "")
@@ -14,7 +14,7 @@ export const cyrToSlug = (str: string) =>
     .replace(/\s+/g, "-");
 
 export const authorSlug = (author: string) =>
-    cyrillicToLatin(author)
+  cyrillicToLatin(author)
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9\s-]/g, "")
@@ -22,7 +22,7 @@ export const authorSlug = (author: string) =>
     .replace(/\s+/g, "-");
 
 export const categorySlug = (category: string) =>
-    category
+  category
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9\s-]/g, "")
