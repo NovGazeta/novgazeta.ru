@@ -15,6 +15,7 @@ export default defineConfig({
   build: {
     concurrency: 2,
     inlineStylesheets: "never",
+    assetsPrefix: '../',
   },
   integrations: [
     sitemap({
